@@ -1,8 +1,8 @@
 #ifndef _LOG_H_
 #define _LOG_H_
 
-#include "../../anp_basecode/inc/basedefs.h"
-#include "../../anp_basecode/inc/mgestr.h"
+#include <basedefs.h>
+#include <anp_str.h>
 
 namespace anp
 {
@@ -18,10 +18,10 @@ class Log
 public:
 	Log();
 
-	void addLogMessage(const anp::dstring &message);
+	void addMessage(const anp::dstring &message);
 
-	anp::RESULT addLogInterface(anp::ILogInterface *logInterface);
-	anp::RESULT removeLogInterface(anp::ILogInterface *logInterface);
+	anp::Result addLogInterface(anp::ILogInterface *logInterface);
+	anp::Result removeLogInterface(anp::ILogInterface *logInterface);
 private:
 	enum
 	{

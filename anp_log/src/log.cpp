@@ -1,4 +1,4 @@
-#include "../inc/mgelog.h"
+#include "../log.h"
 
 namespace anp
 {
@@ -24,7 +24,7 @@ m_logInterfaceCount(0)
 
 	@todo Optimize this function. If the there were never any gaps in the list it wouldn't be necessary to go through the whole list here OR check for NULL pointers.
 */
-void Log::addLogMessage(const anp::dstring &message)
+void Log::addMessage(const anp::dstring &message)
 {
 	for ( anp::uint32 i=0; i<MAX_LOGINTERFACES; ++i )
 	{
@@ -42,9 +42,9 @@ void Log::addLogMessage(const anp::dstring &message)
 
 	@return RES_OK on success, RES_OUTOFBOUNDS if the list of interfaces is full.
 */
-anp::RESULT Log::addLogInterface(anp::ILogInterface *logInterface)
+anp::Result Log::addLogInterface(anp::ILogInterface *logInterface)
 {
-	MGE_REQUIRE_DIRECT(logInterface != NULL);
+	ANP_REQUIRE_DIRECT(logInterface != NULL);
 
 	if ( m_logInterfaceCount < MAX_LOGINTERFACES )
 	{
@@ -72,9 +72,9 @@ anp::RESULT Log::addLogInterface(anp::ILogInterface *logInterface)
 
 	@return RES_OK on success or RES_NOTFOUND if the interface is not in the list.
 */
-anp::RESULT Log::removeLogInterface(anp::ILogInterface *logInterface)
+anp::Result Log::removeLogInterface(anp::ILogInterface *logInterface)
 {
-	MGE_REQUIRE_DIRECT(logInterface != NULL);
+	ANP_REQUIRE_DIRECT(logInterface != NULL);
 
 	for ( anp::uint32 i=0; i<MAX_LOGINTERFACES; ++i )
 	{

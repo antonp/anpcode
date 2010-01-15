@@ -42,15 +42,15 @@ namespace anp
   typedef uint64				uword;
 #endif
 
-//#define MGE_TRUE 1
-//#define MGE_FALSE 0
+//#define ANP_TRUE 1
+//#define ANP_FALSE 0
 enum
 {
 	FALSE = 0,
 	TRUE = 1
 };
 
-#ifdef FIRC_UNICODE
+#ifdef ANP_UNICODE
   #define DCHAR unsigned short
 //  typedef unsigned short		DCHAR;
 #else
@@ -74,14 +74,14 @@ enum Result
 
 } // namespace anp
 
-#define FIRC_CLEANUP_LABEL mgeCleanUpLabel1:
-#define FIRC_GOTO_CLEANUP_LABEL goto mgeCleanUpLabel1
-#define FIRC_GOTO_CLEANUP_LABEL_IF(expr) if ( expr ) { MGE_GOTO_CLEANUP_LABEL; }
-#define FIRC_REQUIRE(expr, resVar) if ( !(expr) ) { resVar = mge::RES_INVALID_PARAMETER; MGE_GOTO_CLEANUP_LABEL; }
-#define FIRC_REQUIRE_DIRECT(expr) if ( !(expr) ) { return mge::RES_INVALID_PARAMETER; }
+#define ANP_CLEANUP_LABEL anpCleanUpLabel1:
+#define ANP_GOTO_CLEANUP_LABEL goto anpCleanUpLabel1
+#define ANP_GOTO_CLEANUP_LABEL_IF(expr) if ( expr ) { ANP_GOTO_CLEANUP_LABEL; }
+#define ANP_REQUIRE(expr, resVar) if ( !(expr) ) { resVar = anp::RES_INVALID_PARAMETER; ANP_GOTO_CLEANUP_LABEL; }
+#define ANP_REQUIRE_DIRECT(expr) if ( !(expr) ) { return anp::RES_INVALID_PARAMETER; }
 
-#define FIRC_DELETE(obj) if ( obj != NULL ) { delete obj; obj = NULL; }
-#define FIRC_DELETE_ARRAY(obj) if ( obj != NULL ) { delete[] obj; obj = NULL; }
+#define ANP_DELETE(obj) if ( obj != NULL ) { delete obj; obj = NULL; }
+#define ANP_DELETE_ARRAY(obj) if ( obj != NULL ) { delete[] obj; obj = NULL; }
 
 #endif // _BASEDEFS_H_
 

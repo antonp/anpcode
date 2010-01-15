@@ -7,7 +7,7 @@
 /// @file anp_str.h This file defines some basic string types
 /// @todo DCHAR, define own string manipulation functions or macros (perhaps just wrappers around stl)
 
-namespace firc
+namespace anp
 {
 #ifdef ANP_UNICODE
 	typedef std::wstring dstring;

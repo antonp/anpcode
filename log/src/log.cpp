@@ -1,4 +1,5 @@
 #include "../log.h"
+#include <stdexcept>
 
 namespace anp
 {
@@ -18,11 +19,17 @@ m_logInterfaceCount(0)
 }
 
 /**
+	Destructor.
+*/
+Log::~Log()
+{
+	
+}
+
+/**
 	Adds a message to the log.
 
 	@param[in] message The message as a string.
-
-	@todo Optimize this function. If the there were never any gaps in the list it wouldn't be necessary to go through the whole list here OR check for NULL pointers.
 */
 void Log::addMessage(const anp::dstring &message)
 {
@@ -39,12 +46,13 @@ void Log::addMessage(const anp::dstring &message)
 	Adds a log (user) interface to the list of log interfaces.
 
 	@param[in] logInterface The interface to add.
-
-	@return RES_OK on success, RES_OUTOFBOUNDS if the list of interfaces is full.
 */
-anp::Result Log::addLogInterface(anp::ILogInterface *logInterface)
+void Log::addLogInterface(anp::ILogInterface *logInterface)
 {
-	ANP_REQUIRE_DIRECT(logInterface != NULL);
+	if ( logInterface == NULL )
+	{
+		throw std::invalid_argument("logInterface == NULL");
+	}
 
 	if ( m_logInterfaceCount < MAX_LOGINTERFACES )
 	{
@@ -55,13 +63,13 @@ anp::Result Log::addLogInterface(anp::ILogInterface *logInterface)
 			{
 				m_logInterfaces[i] = logInterface;
 				++m_logInterfaceCount;
-				return anp::RES_OK;
+				return;
 			}
 		}
-		return anp::RES_INTERNALERROR;
+		throw std::logic_error("m_logInterfaceCount < MAX_LOGINTERFACES, yet there is no empty spot");
 	} else
 	{
-		return anp::RES_OUTOFBOUNDS;
+		throw std::overflow_error("Internal list of log interfaces is full");
 	}
 }
 
@@ -69,12 +77,13 @@ anp::Result Log::addLogInterface(anp::ILogInterface *logInterface)
 	Removes a log (user) interface from the list.
 
 	@param[in] logInterface The interface to remove.
-
-	@return RES_OK on success or RES_NOTFOUND if the interface is not in the list.
 */
-anp::Result Log::removeLogInterface(anp::ILogInterface *logInterface)
+void Log::removeLogInterface(anp::ILogInterface *logInterface)
 {
-	ANP_REQUIRE_DIRECT(logInterface != NULL);
+	if ( logInterface == NULL )
+	{
+		throw std::invalid_argument("logInterface == NULL");
+	}
 
 	for ( anp::uint32 i=0; i<MAX_LOGINTERFACES; ++i )
 	{
@@ -82,10 +91,9 @@ anp::Result Log::removeLogInterface(anp::ILogInterface *logInterface)
 		{
 			m_logInterfaces[i] = NULL;
 			--m_logInterfaceCount;
-			return anp::RES_OK;
+			break;
 		}
 	}
-	return anp::RES_NOTFOUND;
 }
 
 }

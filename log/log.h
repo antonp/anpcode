@@ -17,11 +17,12 @@ class Log
 {
 public:
 	Log();
+	virtual ~Log();
 
 	void addMessage(const anp::dstring &message);
 
-	anp::Result addLogInterface(anp::ILogInterface *logInterface);
-	anp::Result removeLogInterface(anp::ILogInterface *logInterface);
+	void addLogInterface(anp::ILogInterface *logInterface);
+	void removeLogInterface(anp::ILogInterface *logInterface);
 private:
 	enum
 	{

@@ -39,9 +39,17 @@ public:
 	{
 		m_log.addMessage(message);
 	}
+	
+	void operator()(const anp::dstring message)
+	{
+		m_log.addMessage(message);
+	}
 private:
 	LogSingleton &m_log;
 };
+
+#define LOG_SINGLETON_MSG(message) LogSingleton::getInstance().addMessage(message);\
+									LogSingleton::releaseInstance();
 
 }
 

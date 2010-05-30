@@ -8,6 +8,14 @@ namespace anp
 {
 
 template <typename E>
+class ISubscriber
+{
+public:
+	virtual ~ISubscriber() { }
+	virtual void receiveEvent(E &event) = 0;
+};
+
+template <typename E>
 class IEventDispatcherSource
 {
 public:

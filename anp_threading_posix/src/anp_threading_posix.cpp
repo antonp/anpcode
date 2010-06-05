@@ -33,8 +33,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <anp_threading.h>
 #include <pthread.h>
 
-#include <iostream> // ETODO REMOVE THIS SHIT
-
 namespace anp
 {
 namespace threading

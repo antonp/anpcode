@@ -31,8 +31,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "../anp_jobqueue.h"
 
-#include <iostream> // ETODO REMOVE THIS SHIT!
-
 namespace anp
 {
 namespace threading
@@ -106,7 +104,6 @@ namespace threading
 		Job *job = NULL;
 		while ( !m_queue.empty() )
 		{
-			std::cout << "Cleaning up unperformed job." << std::endl;
 			job = m_queue.front();
 			m_queue.pop();
 			delete job;

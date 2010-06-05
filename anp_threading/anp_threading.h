@@ -144,6 +144,19 @@ namespace threading
 		MutexPlatformSpecific *m_mutex;
 	};
 	
+	/**
+	 * @brief
+	 * The typical lock mechanism.
+	 */
+	class Lock
+	{
+	public:
+		Lock(Mutex &mutex);
+		~Lock();
+	private:
+		Mutex &m_mutex;
+	};
+	
 	class Event
 	{
 	public:

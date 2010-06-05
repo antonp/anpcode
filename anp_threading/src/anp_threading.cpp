@@ -32,6 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../anp_threading.h"
 #include <basedefs.h>
 #include <anp_exceptions.h>
+#include <stdexcept>
 
 namespace anp
 {
@@ -125,6 +126,21 @@ namespace threading
 	{
 		destroyMutexObject(m_mutex);
 	}
+	
+	Lock::Lock(Mutex &mutex):
+	m_mutex(mutex)
+	{
+		if ( m_mutex.lock() != RES_OK )
+		{
+			throw std::runtime_error("Failed to lock aquire/lock a mutex");
+		}
+	}
+	
+	Lock::~Lock()
+	{
+		m_mutex.unlock();
+	}
+	
 	
 	/**
 	 * @brief

@@ -132,7 +132,7 @@ namespace threading
 	{
 		if ( m_mutex.lock() != RES_OK )
 		{
-			throw std::runtime_error("Failed to lock aquire/lock a mutex");
+			throw std::runtime_error("Failed to aquire/lock a mutex");
 		}
 	}
 	
@@ -140,6 +140,20 @@ namespace threading
 	{
 		m_mutex.unlock();
 	}
+	
+	TryLock::TryLock(Mutex &mutex):
+	m_mutex(mutex)
+	{
+		if ( !m_mutex.tryLock() )
+		{
+			throw std::runtime_error("Failed to aquire/lock a mutex");
+		}
+	}
+	
+	TryLock::~TryLock()
+	{
+		m_mutex.unlock();
+	}	
 	
 	
 	/**

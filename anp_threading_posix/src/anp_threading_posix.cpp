@@ -32,6 +32,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <anp_threading.h>
 #include <pthread.h>
+#include <errno.h>
+#include <stdexcept>
 
 namespace anp
 {
@@ -153,6 +155,24 @@ namespace threading
 			RES_OK: RES_FAILED);
 
 		return res;
+	}
+	
+	bool32 Mutex::tryLock()
+	{
+		int ret = pthread_mutex_trylock(&m_mutex->m_mutex);
+		switch ( ret )
+		{
+		case 0:
+			return true;
+		case EBUSY:
+			return false;
+		case EINVAL:
+			throw std::invalid_argument("tryLock(): Not an initialized mutex (EINVAL)");
+		case EFAULT:
+			throw std::invalid_argument("tryLock(): Invalid pointer (EFAULT)");
+		default:
+			throw std::runtime_error("tryLock(): Undefined behavior (UNKNOWN)");
+		}
 	}
 
 	Result Mutex::unlock()

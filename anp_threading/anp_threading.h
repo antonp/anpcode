@@ -131,6 +131,15 @@ namespace threading
 		 * RES_OK on success, error code otherwise.
 		 */
 		Result lock();
+		
+		/**
+		 * @brief
+		 * Tries to lock the mutex. Does not block.
+		 * 
+		 * @return
+		 * true if the lock succeeded and false otherwise.
+		 */
+		bool32 tryLock();
 
 		/**
 		 * @brief
@@ -153,6 +162,19 @@ namespace threading
 	public:
 		Lock(Mutex &mutex);
 		~Lock();
+	private:
+		Mutex &m_mutex;
+	};
+	
+	/**
+	 * @brief
+	 * Like Lock, but uses Mutex::tryLock instead.
+	 */
+	class TryLock
+	{
+	public:
+		TryLock(Mutex &mutex);
+		~TryLock();
 	private:
 		Mutex &m_mutex;
 	};

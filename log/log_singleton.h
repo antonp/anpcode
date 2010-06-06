@@ -70,6 +70,10 @@ public:
 	{
 		m_log.addMessage(message);
 	}
+
+	void addLogInterface(anp::ILogInterface *logInterface);
+	void removeLogInterface(anp::ILogInterface *logInterface);	
+
 private:
 	LogSingleton &m_log;
 };

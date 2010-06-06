@@ -59,4 +59,14 @@ void LogSingleton::releaseInstance()
 uint32 LogSingleton::m_refCount = 0;
 LogSingleton *LogSingleton::m_instance = NULL;
 
+void LogSingletonHelper::addLogInterface(anp::ILogInterface *logInterface)
+{
+	m_log.addLogInterface(logInterface);
+}
+
+void LogSingletonHelper::removeLogInterface(anp::ILogInterface *logInterface)
+{
+	m_log.removeLogInterface(logInterface);
+}
+
 }

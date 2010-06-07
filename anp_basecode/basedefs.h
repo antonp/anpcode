@@ -51,8 +51,8 @@ namespace anp
   typedef int32					word;
   typedef uint32				uword;
 #endif
-
-#ifdef TARGET_UBUNTU64
+  
+#ifdef  TARGET_LINUX_64
   typedef long long				int64;
   typedef unsigned long long	uint64;
   typedef int					int32;
@@ -69,8 +69,23 @@ namespace anp
   typedef uint64				uword;
 #endif
 
-//#define ANP_TRUE 1
-//#define ANP_FALSE 0
+#ifdef TARGET_LINUX32
+  typedef long long				int64;
+  typedef unsigned long long	uint64;
+  typedef int					int32;
+  typedef unsigned int			uint32;
+  typedef short					int16;
+  typedef unsigned short		uint16;
+  typedef char					int8;
+  typedef unsigned char			uint8;
+
+  typedef uint32				bool32;
+  typedef uint8					bool8;
+  
+  typedef int32					word;
+  typedef uint32				uword;
+#endif
+
 enum
 {
 	FALSE = 0,
@@ -79,10 +94,8 @@ enum
 
 #ifdef ANP_UNICODE
   #define DCHAR unsigned short
-//  typedef unsigned short		DCHAR;
 #else
   #define DCHAR char
-//  typedef char					DCHAR;
 #endif
 
 enum Result

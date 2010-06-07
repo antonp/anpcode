@@ -56,6 +56,7 @@ namespace anp
 		void *getSymbol(const int8 *symbolName)
 		{
 			void *symbol = dlsym(m_handle, symbolName);
+
 			if ( NULL == symbol )
 			{
 				std::stringstream errorMsg;
@@ -63,6 +64,7 @@ namespace anp
 					<< dlerror() << std::endl;
 				throw std::runtime_error(errorMsg.str());
 			}
+			return symbol;
 		}
 	};
 

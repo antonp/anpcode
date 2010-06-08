@@ -35,7 +35,7 @@ This header file defines some useful input-related constants
 #include "basedefs.h"
 #include "common.h"
 
-namespace firc
+namespace anp
 {
 	enum MouseButton
 	{
@@ -62,12 +62,12 @@ namespace firc
 		union
 		{
 			MouseButton button;
-			mge::uint32 buttonState;
+			anp::uint32 buttonState;
 		};
-		mge::Point2d position;
-		mge::int32 xrel;
-		mge::int32 yrel;
+		anp::Point2d position;
+		anp::int32 xrel;
+		anp::int32 yrel;
 	};
-}
+} // namespace anp
 
 #endif // _MGEINPUT_H_

@@ -30,42 +30,42 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "basedefs.h"
 
-namespace firc
+namespace anp
 {
 	struct Point2d
 	{
 		Point2d():x(0), y(0) { }
-		Point2d(mge::int32 in_x, mge::int32 in_y):x(in_x), y(in_y) { }
-		Point2d(const mge::Point2d &point):x(point.x), y(point.y) { }
-		mge::int32 x;
-		mge::int32 y;
+		Point2d(anp::int32 in_x, anp::int32 in_y):x(in_x), y(in_y) { }
+		Point2d(const anp::Point2d &point):x(point.x), y(point.y) { }
+		anp::int32 x;
+		anp::int32 y;
 	};
 
 	struct Size2d
 	{
 		Size2d():width(0), height(0) { }
-		Size2d(mge::uint32 in_width, mge::uint32 in_height):width(in_width), height(in_height) { }
-		Size2d(const mge::Size2d &size):width(size.width), height(size.height) { }
-		mge::uint32 width;
-		mge::uint32 height;
+		Size2d(anp::uint32 in_width, anp::uint32 in_height):width(in_width), height(in_height) { }
+		Size2d(const anp::Size2d &size):width(size.width), height(size.height) { }
+		anp::uint32 width;
+		anp::uint32 height;
 	};
 
 	struct Rect
 	{
 		Rect():top(0), left(0), bottom(0), right(0) { }
-		mge::int32 top;
-		mge::int32 left;
-		mge::int32 bottom;
-		mge::int32 right;
+		anp::int32 top;
+		anp::int32 left;
+		anp::int32 bottom;
+		anp::int32 right;
 	};
 
-	static mge::bool32 pointInRect(const Point2d &point, const Rect &rect)
+	static anp::bool32 pointInRect(const Point2d &point, const Rect &rect)
 	{
 		return ( point.x > rect.left
 			&& point.x < rect.right
 			&& point.y > rect.top
 			&& point.y < rect.bottom );
 	}
-}
+} // namespace anp
 
 #endif // _COMMON_H_

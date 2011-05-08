@@ -62,26 +62,33 @@ public:
 	{
 		LogSingleton::releaseInstance();
 	}
-	void addMessage(const anp::dstring &message)
+	void logi(const anp::dstring &tag,
+              const anp::dstring &message,
+              const anp::dstring &file="<file n/a>",
+              const anp::dstring &line="<line n/a>")
 	{
-		m_log.addMessage(message);
+		m_log.logi(message, file, line);
 	}
 	
-	void operator()(const anp::dstring message)
-	{
-		m_log.addMessage(message);
-	}
+    // todo: logd, loge etc
 
 	void addLogInterface(anp::ILogInterface *logInterface);
-	void removeLogInterface(anp::ILogInterface *logInterface);	
+	void removeLogInterface(anp::ILogInterface *logInterface);
 
 private:
 	LogSingleton &m_log;
 };
 
-#define LOG_SINGLETON_MSG(message) LogSingleton::getInstance().addMessage(message);\
-									LogSingleton::releaseInstance();
+#define TOSTRING_INNER(s) #s
+#define TOSTRING(s) TOSTRING_INNER(s)
+#define ANPLOGE(tag, message) anp::LogSingleton::getInstance().loge(tag, message, __FILE__, TOSTRING(__LINE__));\
+                                    anp::LogSingleton::releaseInstance();
+#define ANPLOGI(tag, message) anp::LogSingleton::getInstance().logi(tag, message, __FILE__, TOSTRING(__LINE__));\
+									anp::LogSingleton::releaseInstance();
+#define ANPLOGD(tag, message) anp::LogSingleton::getInstance().logd(tag, message, __FILE__, TOSTRING(__LINE__));\
+                                    anp::LogSingleton::releaseInstance();
 
 }
 
 #endif // _LOG_SINGLETON_H_
+

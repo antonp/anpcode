@@ -54,17 +54,64 @@ Log::~Log()
 }
 
 /**
-	Adds a message to the log.
+	Adds an error message to the log.
 
+    @param[in] tag The log tag.
 	@param[in] message The message as a string.
+    @param[in] file The source file that generated the message.
+    @param[in] line The source line that generated the message.
 */
-void Log::addMessage(const anp::dstring &message)
+void Log::loge(const anp::dstring &tag,
+               const anp::dstring &message,
+               const anp::dstring &file,
+               const anp::dstring &line)
 {
 	for ( anp::uint32 i=0; i<MAX_LOGINTERFACES; ++i )
 	{
 		if ( m_logInterfaces[i] != NULL )
 		{
-			m_logInterfaces[i]->present(message);
+			m_logInterfaces[i]->present(tag, message, file, line);
+		}
+	}
+}
+
+/**
+	Adds an informational message to the log.
+
+    @param[in] tag The log tag.
+	@param[in] message The message as a string.
+    @param[in] file The source file that generated the message.
+    @param[in] line The source line that generated the message.
+*/
+void Log::logi(const anp::dstring &tag, const anp::dstring &message, const anp::dstring &file, const anp::dstring &line)
+{
+	for ( anp::uint32 i=0; i<MAX_LOGINTERFACES; ++i )
+	{
+		if ( m_logInterfaces[i] != NULL )
+		{
+			m_logInterfaces[i]->present(tag, message, file, line);
+		}
+	}
+}
+
+/**
+	Adds a debug message to the log.
+
+    @param[in] tag The log tag.
+	@param[in] message The message as a string.
+    @param[in] file The source file that generated the message.
+    @param[in] line The source line that generated the message.
+*/
+void Log::logd(const anp::dstring &tag,
+               const anp::dstring &message,
+               const anp::dstring &file,
+               const anp::dstring &line)
+{
+	for ( anp::uint32 i=0; i<MAX_LOGINTERFACES; ++i )
+	{
+		if ( m_logInterfaces[i] != NULL )
+		{
+			m_logInterfaces[i]->present(tag, message, file, line);
 		}
 	}
 }

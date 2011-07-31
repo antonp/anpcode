@@ -25,7 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "../log_singleton.h"
+#include "log_singleton.h"
 
 namespace anp
 {

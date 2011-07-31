@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * Implementation of the WorkerThread.
  */
 
-#include "../anp_workerthread.h"
+#include "anp_workerthread.h"
 #include <anp_jobqueue.h>
 
 namespace anp

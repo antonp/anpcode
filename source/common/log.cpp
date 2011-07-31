@@ -25,7 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "../log.h"
+#include "log.h"
 #include <stdexcept>
 
 namespace anp

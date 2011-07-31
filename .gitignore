@@ -2,3 +2,9 @@
 *.os
 .sconsign.dblite
 *.swp
+#build/
+*.a
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+CMakeFiles/

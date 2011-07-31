@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * Implementation of the job queue system.
  */
 
-#include "../anp_jobqueue.h"
+#include "anp_jobqueue.h"
 
 namespace anp
 {

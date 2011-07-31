@@ -1,6 +1,4 @@
 # cmake build file.
-# this actually never worked, just did it to get
-# accustomed to cmake
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
@@ -21,14 +19,23 @@ ELSEIF(WIN32)
 ENDIF(UNIX)
 
 INCLUDE_DIRECTORIES(${anpcode_SOURCE_DIR}/defs)
+INCLUDE_DIRECTORIES(pfindep)
+INCLUDE_DIRECTORIES(common)
 
-SET(COMMON_SRCS common/anp_jobqueue.cpp
-                common/anp_workerthread.cpp
-                common/log.cpp
-                common/log_singleton.cpp)
+SET(ANPCODE_SRCS common/anp_jobqueue.cpp
+                 common/anp_workerthread.cpp
+                 common/log.cpp
+                 common/log_singleton.cpp)
 
-ADD_LIBRARY(anpcode ${COMMON_SRCS})
+IF(UNIX)
+    SET(ANPCODE_SRCS ${ANPCODE_SRCS} pfindep/anp_dynamic_library_posix.cpp
+                                     pfindep/anp_threading_posix.cpp
+                                     pfindep/anp_timing_posix.cpp)
+ELSE(UNIX)
+    MESSAGE(FATA_ERROR "Only UNIX/posix implemented in pfindep")
+ENDIF(UNIX)
 
-# pfindep handled by sub make list
-#ADD_SUBDIRECTORY(pfindep)
+
+
+ADD_LIBRARY(anpcode ${ANPCODE_SRCS})
 

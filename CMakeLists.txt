@@ -18,19 +18,18 @@ ELSEIF(WIN32)
         MESSAGE(FATAL_ERROR "WIN32 not configured")
 ENDIF(UNIX)
 
-INCLUDE_DIRECTORIES(${anpcode_SOURCE_DIR}/defs)
-INCLUDE_DIRECTORIES(pfindep)
-INCLUDE_DIRECTORIES(common)
+INCLUDE_DIRECTORIES(include)
 
-SET(ANPCODE_SRCS common/anp_jobqueue.cpp
-                 common/anp_workerthread.cpp
-                 common/log.cpp
-                 common/log_singleton.cpp)
+SET(ANPCODE_SRCS src/common/anp_jobqueue.cpp
+                 src/common/anp_workerthread.cpp
+                 src/common/log.cpp
+                 src/common/log_singleton.cpp
+                 src/pfindep/anp_threading.cpp)
 
 IF(UNIX)
-    SET(ANPCODE_SRCS ${ANPCODE_SRCS} pfindep/anp_dynamic_library_posix.cpp
-                                     pfindep/anp_threading_posix.cpp
-                                     pfindep/anp_timing_posix.cpp)
+    SET(ANPCODE_SRCS ${ANPCODE_SRCS} src/pfindep/anp_dynamic_library_posix.cpp
+                                     src/pfindep/anp_threading_posix.cpp
+                                     src/pfindep/anp_timing_posix.cpp)
 ELSE(UNIX)
     MESSAGE(FATA_ERROR "Only UNIX/posix implemented in pfindep")
 ENDIF(UNIX)
@@ -38,4 +37,5 @@ ENDIF(UNIX)
 
 
 ADD_LIBRARY(anpcode ${ANPCODE_SRCS})
+SET_TARGET_PROPERTIES(anpcode PROPERTIES COMPILE_FLAGS -fPIC)
 

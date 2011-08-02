@@ -30,9 +30,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * Implementation of generic parts of the threading api.
  */
 
-#include "anp_threading.h"
-#include <basedefs.h>
-#include <anp_exceptions.h>
+#include <anpcode/anp_threading.h>
+#include <anpcode/basedefs.h>
+#include <anpcode/anp_exceptions.h>
 #include <stdexcept>
 
 namespace anp

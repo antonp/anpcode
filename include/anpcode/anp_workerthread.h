@@ -25,19 +25,43 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef _ANP_TIMING_H_
-#define _ANP_TIMING_H_
+/**
+ * @file anp_workerthread.h
+ * Defines the WorkerThread class.
+ */
 
-#include <basedefs.h>
+#ifndef _ANP_WORKERTHREAD_H_
+#define _ANP_WORKERTHREAD_H_
+
+#include <anpcode/basedefs.h>
+#include <anpcode/anp_threading.h>
 
 namespace anp
 {
-namespace timing
+namespace threading
 {
-	uint32 getMilliseconds();
+	class JobQueueWorkerInterface;
 	
-	void sleepMilliseconds(uint32 ms);
-}
-}
+	class WorkerThread
+	{
+	public:
+		WorkerThread();
+		~WorkerThread();
+		
+		void start(JobQueueWorkerInterface *jobQueue);
+		void stop();
+		void join();
+	private:
+		Thread m_thread;
+		JobQueueWorkerInterface *m_jobQueue;
+		uint32 m_dying;
+		Mutex m_dyingMutex;
+		
+		static void *threadEntry(void *arg);
+		void loop();
+	};
+	
+} // namespace threading
+} // namespace anp
 
-#endif // _ANP_TIMING_H_
+#endif // _ANP_WORKERTHREAD_H_

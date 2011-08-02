@@ -92,12 +92,6 @@ enum
 	TRUE = 1
 };
 
-#ifdef ANP_UNICODE
-  #define DCHAR unsigned short
-#else
-  #define DCHAR char
-#endif
-
 enum Result
 {
 	RES_OK 				= 0,
@@ -113,15 +107,6 @@ enum Result
 };
 
 } // namespace anp
-
-#define ANP_CLEANUP_LABEL anpCleanUpLabel1:
-#define ANP_GOTO_CLEANUP_LABEL goto anpCleanUpLabel1
-#define ANP_GOTO_CLEANUP_LABEL_IF(expr) if ( expr ) { ANP_GOTO_CLEANUP_LABEL; }
-#define ANP_REQUIRE(expr, resVar) if ( !(expr) ) { resVar = anp::RES_INVALID_PARAMETER; ANP_GOTO_CLEANUP_LABEL; }
-#define ANP_REQUIRE_DIRECT(expr) if ( !(expr) ) { return anp::RES_INVALID_PARAMETER; }
-
-#define ANP_DELETE(obj) if ( obj != NULL ) { delete obj; obj = NULL; }
-#define ANP_DELETE_ARRAY(obj) if ( obj != NULL ) { delete[] obj; obj = NULL; }
 
 #endif // _BASEDEFS_H_
 

@@ -25,26 +25,25 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include <basedefs.h>
-#include <sys/time.h>
-#include <unistd.h>
+#ifndef _DYNAMIC_LIBRARY_H_
+#define _DYNAMIC_LIBRARY_H_
+
+#include <anpcode/basedefs.h>
 
 namespace anp
 {
-namespace timing
-{
-	uint32 getMilliseconds()
-	{
-		timeval curr;
-		
-		gettimeofday(&curr, NULL);
-		
-		return curr.tv_sec*1000 + curr.tv_usec/1000;
-	}
+	class DynamicLibraryImplementation;
 	
-	void sleepMilliseconds(uint32 ms)
+	class DynamicLibrary
 	{
-		usleep(ms*1000);
-	}
+	public:
+		DynamicLibrary(const int8 *fileName);
+		virtual ~DynamicLibrary();
+		
+		void *getSymbol(const int8 *symbolName);
+	private:
+		DynamicLibraryImplementation *m_impl;
+	};
 }
-}
+
+#endif // _DYNAMIC_LIBRARY_H_

@@ -25,82 +25,30 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-/**
- * @file anp_workerthread.cpp
- * Implementation of the WorkerThread.
- */
+#ifndef _STDVECTOR_H_
+#define _STDVECTOR_H_
 
-#include "anp_workerthread.h"
-#include <anp_jobqueue.h>
+#include <anpcode/iwritablecontainer.h>
 
 namespace anp
 {
-namespace threading
+
+/**
+ * Simple wrapper around std::vector that can be passed to 
+ * functions expecting IWritableContainer interfaces.
+ * Provides no encapsulation or real wrapping around the
+ * std::vector object.
+ */
+template<typename T>
+class StdVector: public anp::IWritableContainer<T>
 {
-	WorkerThread::WorkerThread():
-	m_dying(0)
+public:
+	void pushBack(T &element)
 	{
-		
+		m_vector.push_back(element);
 	}
 	
-	WorkerThread::~WorkerThread()
-	{
-		
-	}
-	
-	void WorkerThread::start(JobQueueWorkerInterface *jobQueue)
-	{
-		m_jobQueue = jobQueue;
-		m_thread.create(NULL, threadEntry, (void *)this);
-	}
-	
-	void WorkerThread::stop()
-	{
-		/// @todo implement, force stop or raise a dying flag and wait?
-		m_dyingMutex.lock();
-		m_dying = 1;
-		m_dyingMutex.unlock();
-	}
-	
-	void WorkerThread::join()
-	{
-		m_thread.join(NULL);
-	}
-	
-	void WorkerThread::loop()
-	{
-		Job *job = NULL;
-		uint32 dying = 0;
-
-		m_dyingMutex.lock();
-		dying = m_dying;
-		m_dyingMutex.unlock();
-
-		while ( 0 == dying ) {
-			if ( m_jobQueue->waitForJob(&job) == false || NULL == job )
-			{
-				// The job queue is shutting down
-				break;
-			}
-
-			if ( NULL != job )
-			{
-				job->execute();
-			}
-
-			delete job;
-			job = NULL;
-			
-			m_dyingMutex.lock();
-			dying = m_dying;
-			m_dyingMutex.unlock();
-		}
-	}
-	
-	void *WorkerThread::threadEntry(void *arg)
-	{
-		((WorkerThread *)arg)->loop();
-	}
-	
-} // namespace threading
+	std::vector<T> m_vector;
 } // namespace anp
+
+#endif // _HEADER_NAME_

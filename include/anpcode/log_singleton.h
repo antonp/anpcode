@@ -25,55 +25,70 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef _LOG_H_
-#define _LOG_H_
+#ifndef _LOG_SINGLETON_H_
+#define _LOG_SINGLETON_H_
 
-#include <basedefs.h>
-#include <anp_str.h>
+#include <anpcode/log.h>
+#include <anpcode/basedefs.h>
 
 namespace anp
 {
 
-class ILogInterface
+class LogSingleton: public anp::Log
 {
 public:
-	virtual void present(const anp::dstring &tag,
-                         const anp::dstring &message,
-                         const anp::dstring &file,
-                         const anp::dstring &line) = 0;
+	static LogSingleton &getInstance();
+	static void releaseInstance();
+private:
+	LogSingleton() { }
+	~LogSingleton() { }
+	
+	static uint32 m_refCount;
+	static LogSingleton *m_instance;
 };
 
-class Log
+/**
+	Makes sure that LogSingleton::releaseInstance() gets called.
+*/
+class LogSingletonHelper
 {
 public:
-	Log();
-	virtual ~Log();
-
-    void loge(const anp::dstring &tag,
-              const anp::dstring &message,
-              const anp::dstring &file="<file n/a>",
-              const anp::dstring &line="<line n/a>");
+	LogSingletonHelper():
+	m_log(LogSingleton::getInstance())
+	{
+		
+	}
+	~LogSingletonHelper()
+	{
+		LogSingleton::releaseInstance();
+	}
 	void logi(const anp::dstring &tag,
               const anp::dstring &message,
               const anp::dstring &file="<file n/a>",
-              const anp::dstring &line="<line n/a>");
-    void logd(const anp::dstring &tag,
-              const anp::dstring &message,
-              const anp::dstring &file="<file n/a>",
-              const anp::dstring &line="<line n/a>");
+              const anp::dstring &line="<line n/a>")
+	{
+		m_log.logi(message, file, line);
+	}
+	
+    // todo: logd, loge etc
 
 	void addLogInterface(anp::ILogInterface *logInterface);
 	void removeLogInterface(anp::ILogInterface *logInterface);
-private:
-	enum
-	{
-		MAX_LOGINTERFACES=10
-	};
 
-	anp::ILogInterface *m_logInterfaces[MAX_LOGINTERFACES];
-	anp::uint32 m_logInterfaceCount;
+private:
+	LogSingleton &m_log;
 };
+
+#define TOSTRING_INNER(s) #s
+#define TOSTRING(s) TOSTRING_INNER(s)
+#define ANPLOGE(tag, message) anp::LogSingleton::getInstance().loge(tag, message, __FILE__, TOSTRING(__LINE__));\
+                                    anp::LogSingleton::releaseInstance();
+#define ANPLOGI(tag, message) anp::LogSingleton::getInstance().logi(tag, message, __FILE__, TOSTRING(__LINE__));\
+									anp::LogSingleton::releaseInstance();
+#define ANPLOGD(tag, message) anp::LogSingleton::getInstance().logd(tag, message, __FILE__, TOSTRING(__LINE__));\
+                                    anp::LogSingleton::releaseInstance();
 
 }
 
-#endif // _LOG_H_
+#endif // _LOG_SINGLETON_H_
+

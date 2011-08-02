@@ -25,30 +25,83 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef _STDVECTOR_H_
-#define _STDVECTOR_H_
+#ifndef _ANP_THREADSAFEQUEUE_H_
+#define _ANP_THREADSAFEQUEUE_H_
 
-#include "iwritablecontainer.h"
+#include <anpcode/basedefs.h>
+#include <queue>
 
 namespace anp
 {
-
-/**
- * Simple wrapper around std::vector that can be passed to 
- * functions expecting IWritableContainer interfaces.
- * Provides no encapsulation or real wrapping around the
- * std::vector object.
- */
-template<typename T>
-class StdVector: public anp::IWritableContainer<T>
+namespace threading
 {
-public:
-	void pushBack(T &element)
+	template<typename T>
+	struct InternalThreadSafeQueue;
+	
+	template<typename T>
+	class ThreadSafeQueue
 	{
-		m_vector.push_back(element);
+	public:
+		ThreadSafeQueue();
+		virtual ~ThreadSafeQueue();
+	
+		void push(const T &element);
+		T &front();
+		void pop();
+		uint32 getSize() const;
+		bool32 isEmpty() const;
+	private:
+		InternalThreadSafeQueue<T> *m_queue;
+	};
+	
+	template<typename T>
+	struct InternalThreadSafeQueue
+	{
+		std::queue<T> m_queue;
+	};
+
+	template<typename T>
+	ThreadSafeQueue<T>::ThreadSafeQueue()
+	{
+		m_queue = new InternalThreadSafeQueue<T>;
 	}
 	
-	std::vector<T> m_vector;
-} // namespace anp
+	template<typename T>
+	ThreadSafeQueue<T>::~ThreadSafeQueue()
+	{
+		delete m_queue;
+	}
 
-#endif // _HEADER_NAME_
+	template<typename T>
+	void ThreadSafeQueue<T>::push(const T &element)
+	{
+		m_queue->m_queue.push(element);
+	}
+	
+	template<typename T>
+	T &ThreadSafeQueue<T>::front()
+	{
+		return m_queue->m_queue.front();
+	}
+
+	template<typename T>
+	void ThreadSafeQueue<T>::pop()
+	{
+		m_queue->m_queue.pop();
+	}
+	
+	template<typename T>
+	uint32 ThreadSafeQueue<T>::getSize() const
+	{
+		return m_queue->m_queue.size();
+	}
+	
+	template<typename T>
+	bool32 ThreadSafeQueue<T>::isEmpty() const
+	{
+		return m_queue->m_queue.empty();
+	}
+}
+}
+
+#endif // _ANP_THREADSAFEQUEUE_H_

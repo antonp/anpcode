@@ -36,7 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * and destroyThreadObject in destructor.
  */
 
-#include <basedefs.h>
+#include <anpcode/basedefs.h>
 
 namespace anp
 {

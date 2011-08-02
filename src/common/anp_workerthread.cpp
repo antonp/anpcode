@@ -25,49 +25,82 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "log_singleton.h"
+/**
+ * @file anp_workerthread.cpp
+ * Implementation of the WorkerThread.
+ */
+
+#include <anpcode/anp_workerthread.h>
+#include <anpcode/anp_jobqueue.h>
 
 namespace anp
 {
-
-LogSingleton &LogSingleton::getInstance()
+namespace threading
 {
-	if ( m_instance != NULL )
+	WorkerThread::WorkerThread():
+	m_dying(0)
 	{
-		m_refCount++;
-		return *m_instance;
-	} else
-	{
-		m_instance = new LogSingleton;
-		// Rely on new throwing an exception if allocation fails
-		m_refCount++;
-		return *m_instance;
+		
 	}
-}
-
-void LogSingleton::releaseInstance()
-{
-	if ( m_refCount > 0 )
+	
+	WorkerThread::~WorkerThread()
 	{
-		if ( --m_refCount == 0 )
-		{
-			delete m_instance;
-			m_instance = NULL;
+		
+	}
+	
+	void WorkerThread::start(JobQueueWorkerInterface *jobQueue)
+	{
+		m_jobQueue = jobQueue;
+		m_thread.create(NULL, threadEntry, (void *)this);
+	}
+	
+	void WorkerThread::stop()
+	{
+		/// @todo implement, force stop or raise a dying flag and wait?
+		m_dyingMutex.lock();
+		m_dying = 1;
+		m_dyingMutex.unlock();
+	}
+	
+	void WorkerThread::join()
+	{
+		m_thread.join(NULL);
+	}
+	
+	void WorkerThread::loop()
+	{
+		Job *job = NULL;
+		uint32 dying = 0;
+
+		m_dyingMutex.lock();
+		dying = m_dying;
+		m_dyingMutex.unlock();
+
+		while ( 0 == dying ) {
+			if ( m_jobQueue->waitForJob(&job) == false || NULL == job )
+			{
+				// The job queue is shutting down
+				break;
+			}
+
+			if ( NULL != job )
+			{
+				job->execute();
+			}
+
+			delete job;
+			job = NULL;
+			
+			m_dyingMutex.lock();
+			dying = m_dying;
+			m_dyingMutex.unlock();
 		}
 	}
-}
-
-uint32 LogSingleton::m_refCount = 0;
-LogSingleton *LogSingleton::m_instance = NULL;
-
-void LogSingletonHelper::addLogInterface(anp::ILogInterface *logInterface)
-{
-	m_log.addLogInterface(logInterface);
-}
-
-void LogSingletonHelper::removeLogInterface(anp::ILogInterface *logInterface)
-{
-	m_log.removeLogInterface(logInterface);
-}
-
-}
+	
+	void *WorkerThread::threadEntry(void *arg)
+	{
+		((WorkerThread *)arg)->loop();
+	}
+	
+} // namespace threading
+} // namespace anp

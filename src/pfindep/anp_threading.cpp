@@ -31,7 +31,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <anpcode/anp_threading.h>
-#include <anpcode/basedefs.h>
 #include <anpcode/anp_exceptions.h>
 #include <stdexcept>
 
@@ -47,16 +46,13 @@ namespace threading
 	 * @param[out] thread
 	 * The created Thread object.
 	 * 
-	 * @return
-	 * RES_OK on success, an error code otherwise.
-	 * 
 	 * @remark
 	 * Does @b NOT create a thread. Use createThread for that.
 	 * 
 	 * @sa
 	 * destroyThreadObject
 	 */
-	Result createThreadObject(ThreadPlatformSpecific **thread);
+	void createThreadObject(ThreadPlatformSpecific **thread);
 	
 	/**
 	 * @brief
@@ -73,10 +69,7 @@ namespace threading
 	Thread::Thread():
 	m_thread(NULL)
 	{
-		if ( RES_OK != createThreadObject(&m_thread) )
-		{
-			throw anp::ConstructionException("Failed to create thread object");
-		}
+		createThreadObject(&m_thread);
 	}
 	
 	Thread::~Thread()
@@ -91,16 +84,13 @@ namespace threading
 	 * @param[out] mutex
 	 * The created mutex object.
 	 * 
-	 * @return
-	 * RES_OK on success, an error code otherwise.
-	 * 
 	 * @remark
-	 * Does @b NOT create a thread. Use createThread for that.
+	 * Does @b NOT create a mutex. Use createMutex for that.
 	 * 
 	 * @sa
 	 * destroyMutexObject
 	 */
-	Result createMutexObject(MutexPlatformSpecific **mutex);
+	void createMutexObject(MutexPlatformSpecific **mutex);
 	
 	/**
 	 * @brief
@@ -117,10 +107,7 @@ namespace threading
 	Mutex::Mutex():
 	m_mutex(NULL)
 	{
-		if ( RES_OK != createMutexObject(&m_mutex) )
-		{
-			throw anp::ConstructionException("Failed to create mutex object");
-		}
+		createMutexObject(&m_mutex);
 	}
 	
 	Mutex::~Mutex()
@@ -131,10 +118,7 @@ namespace threading
 	Lock::Lock(Mutex &mutex):
 	m_mutex(mutex)
 	{
-		if ( m_mutex.lock() != RES_OK )
-		{
-			throw std::runtime_error("Failed to aquire/lock a mutex");
-		}
+		m_mutex.lock();
 	}
 	
 	Lock::~Lock()
@@ -145,10 +129,7 @@ namespace threading
 	TryLock::TryLock(Mutex &mutex):
 	m_mutex(mutex)
 	{
-		if ( !m_mutex.tryLock() )
-		{
-			throw std::runtime_error("Failed to aquire/lock a mutex");
-		}
+		!m_mutex.tryLock();
 	}
 	
 	TryLock::~TryLock()
@@ -164,13 +145,10 @@ namespace threading
 	 * @param[out] event
 	 * The created Event object.
 	 * 
-	 * @return
-	 * RES_OK on success, an error code otherwise.
-	 * 
 	 * @sa
 	 * destroyEventObject
 	 */
-	Result createEventObject(EventPlatformSpecific **event);
+	void createEventObject(EventPlatformSpecific **event);
 	
 	/**
 	 * @brief
@@ -187,10 +165,7 @@ namespace threading
 	Event::Event():
 	m_event(NULL)
 	{
-		if ( RES_OK != createEventObject(&m_event) )
-		{
-			throw anp::ConstructionException("Failed to create event object");
-		}
+		createEventObject(&m_event);
 	}
 	
 	Event::~Event()

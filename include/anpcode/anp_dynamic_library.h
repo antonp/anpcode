@@ -28,8 +28,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _DYNAMIC_LIBRARY_H_
 #define _DYNAMIC_LIBRARY_H_
 
-#include <anpcode/basedefs.h>
-
 namespace anp
 {
 	class DynamicLibraryImplementation;
@@ -37,10 +35,10 @@ namespace anp
 	class DynamicLibrary
 	{
 	public:
-		DynamicLibrary(const int8 *fileName);
+		DynamicLibrary(const char *fileName);
 		virtual ~DynamicLibrary();
 		
-		void *getSymbol(const int8 *symbolName);
+		void *getSymbol(const char *symbolName);
 	private:
 		DynamicLibraryImplementation *m_impl;
 	};

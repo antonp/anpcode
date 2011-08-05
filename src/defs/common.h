@@ -28,14 +28,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-#include "basedefs.h"
-
 namespace anp
 {
 	struct Point2d
 	{
 		Point2d():x(0), y(0) { }
-		Point2d(anp::int32 in_x, anp::int32 in_y):x(in_x), y(in_y) { }
+		Point2d(int in_x, int in_y):x(in_x), y(in_y) { }
 		Point2d(const anp::Point2d &point):x(point.x), y(point.y) { }
 		anp::int32 x;
 		anp::int32 y;
@@ -44,10 +42,10 @@ namespace anp
 	struct Size2d
 	{
 		Size2d():width(0), height(0) { }
-		Size2d(anp::uint32 in_width, anp::uint32 in_height):width(in_width), height(in_height) { }
+		Size2d(anp::unsigned int in_width, unsigned int in_height):width(in_width), height(in_height) { }
 		Size2d(const anp::Size2d &size):width(size.width), height(size.height) { }
-		anp::uint32 width;
-		anp::uint32 height;
+		anp::unsigned int width;
+		anp::unsigned int height;
 	};
 
 	struct Rect
@@ -59,7 +57,7 @@ namespace anp
 		anp::int32 right;
 	};
 
-	static anp::bool32 pointInRect(const Point2d &point, const Rect &rect)
+	static anp::bool pointInRect(const Point2d &point, const Rect &rect)
 	{
 		return ( point.x > rect.left
 			&& point.x < rect.right

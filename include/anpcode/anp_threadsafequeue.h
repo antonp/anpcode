@@ -28,7 +28,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _ANP_THREADSAFEQUEUE_H_
 #define _ANP_THREADSAFEQUEUE_H_
 
-#include <anpcode/basedefs.h>
 #include <queue>
 
 namespace anp
@@ -48,8 +47,8 @@ namespace threading
 		void push(const T &element);
 		T &front();
 		void pop();
-		uint32 getSize() const;
-		bool32 isEmpty() const;
+		unsigned int getSize() const;
+		bool isEmpty() const;
 	private:
 		InternalThreadSafeQueue<T> *m_queue;
 	};
@@ -91,13 +90,13 @@ namespace threading
 	}
 	
 	template<typename T>
-	uint32 ThreadSafeQueue<T>::getSize() const
+	unsigned int ThreadSafeQueue<T>::getSize() const
 	{
 		return m_queue->m_queue.size();
 	}
 	
 	template<typename T>
-	bool32 ThreadSafeQueue<T>::isEmpty() const
+	bool ThreadSafeQueue<T>::isEmpty() const
 	{
 		return m_queue->m_queue.empty();
 	}

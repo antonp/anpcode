@@ -36,8 +36,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * and destroyThreadObject in destructor.
  */
 
-#include <anpcode/basedefs.h>
-
 namespace anp
 {
 namespace threading
@@ -92,11 +90,8 @@ namespace threading
 		 * 
 		 * @param[in] arg
 		 * Argument to be passed to the threads startRoutine.
-		 * 
-		 * @return
-		 * RES_OK on success, specific error code on failure.
 		 */
-		Result create(const ThreadAttributesPlatformSpecific *attr,
+		void create(const ThreadAttributesPlatformSpecific *attr,
 			void *(*startRoutine)(void *), void *arg);
 			
 		/**
@@ -108,11 +103,8 @@ namespace threading
 		 * 
 		 * @param valuePtr
 		 * No clue.
-		 * 
-		 * @return
-		 * RES_OK on success, specific error code on failure.
 		 */
-		Result join(void **valuePtr);
+		void join(void **valuePtr);
 		
 	private:
 		ThreadPlatformSpecific *m_thread;
@@ -127,11 +119,8 @@ namespace threading
 		/**
 		 * @brief
 		 * Locks the mutex.
-		 * 
-		 * @return
-		 * RES_OK on success, error code otherwise.
 		 */
-		Result lock();
+		void lock();
 		
 		/**
 		 * @brief
@@ -140,16 +129,13 @@ namespace threading
 		 * @return
 		 * true if the lock succeeded and false otherwise.
 		 */
-		bool32 tryLock();
+		bool tryLock();
 
 		/**
 		 * @brief
 		 * Unlocks the mutex.
-		 * 
-		 * @return
-		 * RES_OK on success, error code otherwise.
 		 */	
-		Result unlock();
+		void unlock();
 	private:
 		MutexPlatformSpecific *m_mutex;
 	};
@@ -186,9 +172,9 @@ namespace threading
 		Event();
 		~Event();
 		
-		Result wait();
-		Result signal();
-		Result signalBroadcast();
+		void wait();
+		void signal();
+		void signalBroadcast();
 	private:
 		EventPlatformSpecific *m_event;
 	};

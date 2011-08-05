@@ -25,7 +25,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include <anpcode/basedefs.h>
 #include <sys/time.h>
 #include <unistd.h>
 
@@ -33,7 +32,7 @@ namespace anp
 {
 namespace timing
 {
-	uint32 getMilliseconds()
+	unsigned int getMilliseconds()
 	{
 		timeval curr;
 		
@@ -42,7 +41,7 @@ namespace timing
 		return curr.tv_sec*1000 + curr.tv_usec/1000;
 	}
 	
-	void sleepMilliseconds(uint32 ms)
+	void sleepMilliseconds(unsigned int ms)
 	{
 		usleep(ms*1000);
 	}

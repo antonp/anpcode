@@ -4,20 +4,6 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 PROJECT(anpcode)
 
-# defs can be handled from here
-
-# common handled here too?
-
-IF(UNIX)
-    IF(${CMAKE_SIZEOF_VOID_P} EQUAL 4)
-        ADD_DEFINITIONS(-DTARGET_LINUX_32)
-    ELSEIF(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-        ADD_DEFINITIONS(-DTARGET_LINUX_64)
-    ENDIF(${CMAKE_SIZEOF_VOID_P} EQUAL 4)
-ELSEIF(WIN32)
-        MESSAGE(FATAL_ERROR "WIN32 not configured")
-ENDIF(UNIX)
-
 INCLUDE_DIRECTORIES(include)
 
 SET(ANPCODE_SRCS src/common/anp_jobqueue.cpp

@@ -62,7 +62,7 @@ namespace anp
 		union
 		{
 			MouseButton button;
-			anp::uint32 buttonState;
+			anp::unsigned int buttonState;
 		};
 		anp::Point2d position;
 		anp::int32 xrel;

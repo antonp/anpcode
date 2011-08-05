@@ -35,6 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <pthread.h>
 #include <errno.h>
 #include <stdexcept>
+#include <new>
 
 namespace anp
 {
@@ -70,18 +71,18 @@ namespace threading
 	///////////////
 	
 	// Thread
-	Result createThreadObject(ThreadPlatformSpecific **thread)
+	void createThreadObject(ThreadPlatformSpecific **thread)
 	{
 		if ( NULL == thread )
 		{
-			return RES_INVALID_PARAMETER;
+            throw std::invalid_argument("thread == NULL");
 		}
 		*thread = new ThreadPlatformSpecific;
 		if ( NULL == *thread )
 		{
-			return RES_MEMALLOC_FAILED;
+		    // Not sure how new behaves on android, so making sure it's thrown
+            throw std::bad_alloc();
 		}
-		return RES_OK;
 	}
 
 	void destroyThreadObject(ThreadPlatformSpecific *thread)
@@ -92,51 +93,43 @@ namespace threading
 		}
 	}
 	
-	Result Thread::create(const ThreadAttributesPlatformSpecific *attr,
+	void Thread::create(const ThreadAttributesPlatformSpecific *attr,
 		void *(*startRoutine)(void *), void *arg)
 	{
 		/// @todo Add support for attr parameter
-		Result res = RES_INVALID_PARAMETER;
 		
 		// attr and arg are allowed to be NULL
 		if ( NULL != startRoutine )
 		{
-			if ( 0 == pthread_create(&m_thread->m_thread, NULL,
+			if ( 0 != pthread_create(&m_thread->m_thread, NULL,
 				startRoutine, arg) )
 			{
-				res = RES_OK;
-			} else
-			{
-				res = RES_FAILED;
+                throw std::runtime_error("pthread_create() failed");
 			}
 		}
-		return res;
 	}
 	
-	Result Thread::join(void **valuePtr)
+	void Thread::join(void **valuePtr)
 	{
-		Result res = RES_INVALID_PARAMETER;
-		
-		res = (0 == pthread_join(m_thread->m_thread, valuePtr) ?
-			RES_OK: RES_FAILED);
-
-		return res;
+		if ( 0 != pthread_join(m_thread->m_thread, valuePtr) )
+        {
+            throw std::runtime_error("pthread_join() failed");
+        }
 	}
 	
 	// Mutex
-	Result createMutexObject(MutexPlatformSpecific **mutex)
+	void createMutexObject(MutexPlatformSpecific **mutex)
 	{
 		if ( NULL == mutex )
 		{
-			return RES_INVALID_PARAMETER;
+            throw std::invalid_argument("mutex is NULL");
 		}
 		*mutex = new MutexPlatformSpecific;
 		if ( NULL == *mutex )
 		{
-			return RES_MEMALLOC_FAILED;
+            throw std::bad_alloc();
 		}
 		pthread_mutex_init(&((*mutex)->m_mutex), NULL);
-		return RES_OK;
 	}
 
 	void destroyMutexObject(MutexPlatformSpecific *mutex)
@@ -148,17 +141,15 @@ namespace threading
 		}
 	}
 	
-	Result Mutex::lock()
+	void Mutex::lock()
 	{
-		Result res = RES_INVALID_PARAMETER;
-
-		res = (0 == pthread_mutex_lock(&m_mutex->m_mutex) ?
-			RES_OK: RES_FAILED);
-
-		return res;
+		if ( 0 != pthread_mutex_lock(&m_mutex->m_mutex) )
+		{
+            throw std::runtime_error("pthread_mutex_lock() failed");		
+		}
 	}
 	
-	bool32 Mutex::tryLock()
+	bool Mutex::tryLock()
 	{
 		int ret = pthread_mutex_trylock(&m_mutex->m_mutex);
 		switch ( ret )
@@ -176,31 +167,28 @@ namespace threading
 		}
 	}
 
-	Result Mutex::unlock()
+	void Mutex::unlock()
 	{
-		Result res = RES_INVALID_PARAMETER;
-
-		res = (0 == pthread_mutex_unlock(&m_mutex->m_mutex) ?
-			RES_OK: RES_FAILED);
-
-		return res;
+        if ( 0 == pthread_mutex_unlock(&m_mutex->m_mutex) )
+        {
+            throw std::runtime_error("pthread_mutex_unlock() failed");        
+        }
 	}
 	
 	// Event
-	Result createEventObject(EventPlatformSpecific **event)
+	void createEventObject(EventPlatformSpecific **event)
 	{
 		if ( NULL == event )
 		{
-			return RES_INVALID_PARAMETER;
+			throw std::invalid_argument("event is NULL");
 		}
 		*event = new EventPlatformSpecific;
 		if ( NULL == *event )
 		{
-			return RES_MEMALLOC_FAILED;
+            throw std::bad_alloc();
 		}
 		pthread_cond_init(&((*event)->m_cond), NULL);
 		pthread_mutex_init(&((*event)->m_mutex), NULL);
-		return RES_OK;
 	}
 	
 	void destroyEventObject(EventPlatformSpecific *event)
@@ -213,40 +201,28 @@ namespace threading
 		}
 	}
 	
-	Result Event::wait()
+	void Event::wait()
 	{
-		Result res = RES_OK;
-		
 		pthread_mutex_lock(&m_event->m_mutex);
 		pthread_cond_wait(&m_event->m_cond, &m_event->m_mutex);
 		pthread_mutex_unlock(&m_event->m_mutex);
-		
-		return res;
 	}
 	
-	Result Event::signal()
+	void Event::signal()
 	{
-		/// @todo error codes
-		Result res = RES_OK;
 		pthread_mutex_lock(&m_event->m_mutex);
 		if ( 0 != pthread_cond_signal(&m_event->m_cond) )
 		{
-			/// @todo error
+            throw std::runtime_error("pthread_cond_signal() failed");
 		}
 		pthread_mutex_unlock(&m_event->m_mutex);
-		
-		return res;
 	}
 	
-	Result Event::signalBroadcast()
+	void Event::signalBroadcast()
 	{
-		Result res = RES_OK;
-		
 		pthread_mutex_lock(&m_event->m_mutex);
 		pthread_cond_broadcast(&m_event->m_cond);
 		pthread_mutex_unlock(&m_event->m_mutex);
-		
-		return res;
 	}
 	
 } // namespace threading

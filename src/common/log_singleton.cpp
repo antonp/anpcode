@@ -57,7 +57,7 @@ void LogSingleton::releaseInstance()
 	}
 }
 
-uint32 LogSingleton::m_refCount = 0;
+unsigned int LogSingleton::m_refCount = 0;
 LogSingleton *LogSingleton::m_instance = NULL;
 
 void LogSingletonHelper::addLogInterface(anp::ILogInterface *logInterface)

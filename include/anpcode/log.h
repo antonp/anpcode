@@ -28,8 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _LOG_H_
 #define _LOG_H_
 
-#include <anpcode/basedefs.h>
-#include <anpcode/anp_str.h>
+#include <string>
 
 namespace anp
 {
@@ -37,10 +36,10 @@ namespace anp
 class ILogInterface
 {
 public:
-	virtual void present(const anp::dstring &tag,
-                         const anp::dstring &message,
-                         const anp::dstring &file,
-                         const anp::dstring &line) = 0;
+	virtual void present(const std::string &tag,
+                         const std::string &message,
+                         const std::string &file,
+                         const std::string &line) = 0;
 };
 
 class Log
@@ -49,18 +48,18 @@ public:
 	Log();
 	virtual ~Log();
 
-    void loge(const anp::dstring &tag,
-              const anp::dstring &message,
-              const anp::dstring &file="<file n/a>",
-              const anp::dstring &line="<line n/a>");
-	void logi(const anp::dstring &tag,
-              const anp::dstring &message,
-              const anp::dstring &file="<file n/a>",
-              const anp::dstring &line="<line n/a>");
-    void logd(const anp::dstring &tag,
-              const anp::dstring &message,
-              const anp::dstring &file="<file n/a>",
-              const anp::dstring &line="<line n/a>");
+    void loge(const std::string &tag,
+              const std::string &message,
+              const std::string &file="<file n/a>",
+              const std::string &line="<line n/a>");
+	void logi(const std::string &tag,
+              const std::string &message,
+              const std::string &file="<file n/a>",
+              const std::string &line="<line n/a>");
+    void logd(const std::string &tag,
+              const std::string &message,
+              const std::string &file="<file n/a>",
+              const std::string &line="<line n/a>");
 
 	void addLogInterface(anp::ILogInterface *logInterface);
 	void removeLogInterface(anp::ILogInterface *logInterface);
@@ -71,7 +70,7 @@ private:
 	};
 
 	anp::ILogInterface *m_logInterfaces[MAX_LOGINTERFACES];
-	anp::uint32 m_logInterfaceCount;
+	unsigned int m_logInterfaceCount;
 };
 
 }

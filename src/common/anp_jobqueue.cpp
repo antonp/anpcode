@@ -74,7 +74,7 @@ namespace threading
 	
 	void JobQueue::start()
 	{
-		for ( uint32 i=0; i<MAX_THREADS; ++i )
+		for ( unsigned int i=0; i<MAX_THREADS; ++i )
 		{
 			m_workers[i].start(this);
 		}
@@ -86,14 +86,14 @@ namespace threading
 		m_dyingMutex.lock();
 		m_dying = 1;
 		m_dyingMutex.unlock();
-		for ( uint32 i=0; i<MAX_THREADS; ++i )
+		for ( unsigned int i=0; i<MAX_THREADS; ++i )
 		{
 			worker = m_workers+i;
 			worker->stop(); // Raise dying flag
 		}
 		
 		m_newJobEvent.signalBroadcast(); // Wake up all workers
-		for ( uint32 i=0; i<MAX_THREADS; ++i )
+		for ( unsigned int i=0; i<MAX_THREADS; ++i )
 		{
 			worker = m_workers+i;
 			m_workers->join(); // Wait for it to finish			
@@ -124,9 +124,9 @@ namespace threading
 		m_jobQueueMutex.unlock();
 	}
 	
-	bool32 JobQueue::waitForJob(Job **job)
+	bool JobQueue::waitForJob(Job **job)
 	{
-		uint32 dying = 0;
+		unsigned int dying = 0;
 		
 		*job = NULL;
 		
@@ -167,7 +167,7 @@ namespace threading
 	
 	void JobQueue::addJob(Job *job)
 	{
-		bool32 empty = false;
+		bool empty = false;
 		
 		m_jobQueueMutex.lock();
 		m_queue.push(job);

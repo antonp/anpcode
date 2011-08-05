@@ -28,15 +28,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _ANP_TIMING_H_
 #define _ANP_TIMING_H_
 
-#include <anpcode/basedefs.h>
-
 namespace anp
 {
 namespace timing
 {
-	uint32 getMilliseconds();
+	unsigned int getMilliseconds();
 	
-	void sleepMilliseconds(uint32 ms);
+	void sleepMilliseconds(unsigned int ms);
 }
 }
 

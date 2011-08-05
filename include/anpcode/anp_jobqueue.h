@@ -35,7 +35,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _ANP_JOBQUEUE_H_
 #define _ANP_JOBQUEUE_H_
 
-#include <anpcode/basedefs.h>
 #include <anpcode/anp_threading.h>
 #include <anpcode/anp_workerthread.h> // forward declare when dynamic amount
 #include <queue>
@@ -82,7 +81,7 @@ namespace threading
 	class JobQueueWorkerInterface
 	{
 	public:
-		virtual bool32 waitForJob(Job **job) = 0;
+		virtual bool waitForJob(Job **job) = 0;
 	};
 
 	class JobQueue:
@@ -96,14 +95,14 @@ namespace threading
 		void start();
 		void stopWait();
 		void waitForJobsToBeCompleted();
-		bool32 waitForJob(Job **job);
+		bool waitForJob(Job **job);
 		void addJob(Job *job);
 	private:
 		std::queue<Job *> m_queue;
 		Mutex m_jobQueueMutex;
 		Event m_newJobEvent;
 		Event m_jobsCompleted;
-		uint32 m_dying;
+		unsigned int m_dying;
 		Mutex m_dyingMutex;
 		
 		enum

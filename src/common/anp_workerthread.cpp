@@ -70,7 +70,7 @@ namespace threading
 	void WorkerThread::loop()
 	{
 		Job *job = NULL;
-		uint32 dying = 0;
+		unsigned int dying = 0;
 
 		m_dyingMutex.lock();
 		dying = m_dying;

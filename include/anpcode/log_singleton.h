@@ -29,7 +29,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _LOG_SINGLETON_H_
 
 #include <anpcode/log.h>
-#include <anpcode/basedefs.h>
 
 namespace anp
 {
@@ -43,7 +42,7 @@ private:
 	LogSingleton() { }
 	~LogSingleton() { }
 	
-	static uint32 m_refCount;
+	static unsigned int m_refCount;
 	static LogSingleton *m_instance;
 };
 
@@ -62,10 +61,10 @@ public:
 	{
 		LogSingleton::releaseInstance();
 	}
-	void logi(const anp::dstring &tag,
-              const anp::dstring &message,
-              const anp::dstring &file="<file n/a>",
-              const anp::dstring &line="<line n/a>")
+	void logi(const std::string &tag,
+              const std::string &message,
+              const std::string &file="<file n/a>",
+              const std::string &line="<line n/a>")
 	{
 		m_log.logi(message, file, line);
 	}

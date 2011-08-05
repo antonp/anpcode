@@ -33,7 +33,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _ANP_WORKERTHREAD_H_
 #define _ANP_WORKERTHREAD_H_
 
-#include <anpcode/basedefs.h>
 #include <anpcode/anp_threading.h>
 
 namespace anp
@@ -54,7 +53,7 @@ namespace threading
 	private:
 		Thread m_thread;
 		JobQueueWorkerInterface *m_jobQueue;
-		uint32 m_dying;
+		unsigned int m_dying;
 		Mutex m_dyingMutex;
 		
 		static void *threadEntry(void *arg);

@@ -27,6 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <anpcode/log.h>
 #include <stdexcept>
+#include <string>
 
 namespace anp
 {
@@ -39,7 +40,7 @@ namespace anp
 Log::Log():
 m_logInterfaceCount(0)
 {
-	for ( anp::uint32 i=0; i<MAX_LOGINTERFACES; ++i )
+	for ( unsigned int i=0; i<MAX_LOGINTERFACES; ++i )
 	{
 		m_logInterfaces[i] = NULL;
 	}
@@ -61,12 +62,12 @@ Log::~Log()
     @param[in] file The source file that generated the message.
     @param[in] line The source line that generated the message.
 */
-void Log::loge(const anp::dstring &tag,
-               const anp::dstring &message,
-               const anp::dstring &file,
-               const anp::dstring &line)
+void Log::loge(const std::string &tag,
+               const std::string &message,
+               const std::string &file,
+               const std::string &line)
 {
-	for ( anp::uint32 i=0; i<MAX_LOGINTERFACES; ++i )
+	for ( unsigned int i=0; i<MAX_LOGINTERFACES; ++i )
 	{
 		if ( m_logInterfaces[i] != NULL )
 		{
@@ -83,9 +84,9 @@ void Log::loge(const anp::dstring &tag,
     @param[in] file The source file that generated the message.
     @param[in] line The source line that generated the message.
 */
-void Log::logi(const anp::dstring &tag, const anp::dstring &message, const anp::dstring &file, const anp::dstring &line)
+void Log::logi(const std::string &tag, const std::string &message, const std::string &file, const std::string &line)
 {
-	for ( anp::uint32 i=0; i<MAX_LOGINTERFACES; ++i )
+	for ( unsigned int i=0; i<MAX_LOGINTERFACES; ++i )
 	{
 		if ( m_logInterfaces[i] != NULL )
 		{
@@ -102,12 +103,12 @@ void Log::logi(const anp::dstring &tag, const anp::dstring &message, const anp::
     @param[in] file The source file that generated the message.
     @param[in] line The source line that generated the message.
 */
-void Log::logd(const anp::dstring &tag,
-               const anp::dstring &message,
-               const anp::dstring &file,
-               const anp::dstring &line)
+void Log::logd(const std::string &tag,
+               const std::string &message,
+               const std::string &file,
+               const std::string &line)
 {
-	for ( anp::uint32 i=0; i<MAX_LOGINTERFACES; ++i )
+	for ( unsigned int i=0; i<MAX_LOGINTERFACES; ++i )
 	{
 		if ( m_logInterfaces[i] != NULL )
 		{
@@ -131,7 +132,7 @@ void Log::addLogInterface(anp::ILogInterface *logInterface)
 	if ( m_logInterfaceCount < MAX_LOGINTERFACES )
 	{
 		// Find the spot
-		for ( anp::uint32 i=0; i<MAX_LOGINTERFACES; ++i )
+		for ( unsigned int i=0; i<MAX_LOGINTERFACES; ++i )
 		{
 			if ( m_logInterfaces[i] == NULL )
 			{
@@ -159,7 +160,7 @@ void Log::removeLogInterface(anp::ILogInterface *logInterface)
 		throw std::invalid_argument("logInterface == NULL");
 	}
 
-	for ( anp::uint32 i=0; i<MAX_LOGINTERFACES; ++i )
+	for ( unsigned int i=0; i<MAX_LOGINTERFACES; ++i )
 	{
 		if ( m_logInterfaces[i] == logInterface )
 		{

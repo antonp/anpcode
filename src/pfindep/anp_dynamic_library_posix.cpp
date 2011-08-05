@@ -37,7 +37,7 @@ namespace anp
 	public:
 		void *m_handle;
 	
-		DynamicLibraryImplementation(const int8 *fileName):
+		DynamicLibraryImplementation(const char *fileName):
 		m_handle(dlopen(fileName, RTLD_LAZY)) // RTLD_NOW ?
 		{
 			if ( NULL == m_handle )
@@ -53,7 +53,7 @@ namespace anp
 			dlclose(m_handle);
 		}
 		
-		void *getSymbol(const int8 *symbolName)
+		void *getSymbol(const char *symbolName)
 		{
 			void *symbol = dlsym(m_handle, symbolName);
 
@@ -70,7 +70,7 @@ namespace anp
 
 	
 	// DynamicLibrary function bodies
-	DynamicLibrary::DynamicLibrary(const int8 *fileName):
+	DynamicLibrary::DynamicLibrary(const char *fileName):
 	m_impl(new DynamicLibraryImplementation(fileName))
 	{
 		
@@ -80,7 +80,7 @@ namespace anp
 		delete m_impl;
 	}
 		
-	void *DynamicLibrary::getSymbol(const int8 *symbolName)
+	void *DynamicLibrary::getSymbol(const char *symbolName)
 	{
 		return m_impl->getSymbol(symbolName);
 	}

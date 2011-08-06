@@ -169,7 +169,7 @@ namespace threading
 
 	void Mutex::unlock()
 	{
-        if ( 0 == pthread_mutex_unlock(&m_mutex->m_mutex) )
+        if ( 0 != pthread_mutex_unlock(&m_mutex->m_mutex) )
         {
             throw std::runtime_error("pthread_mutex_unlock() failed");        
         }

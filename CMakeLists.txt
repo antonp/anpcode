@@ -23,4 +23,11 @@ ENDIF(UNIX)
 
 
 ADD_LIBRARY(anpcode SHARED ${ANPCODE_SRCS})
-
+SET_TARGET_PROPERTIES(anpcode
+                      PROPERTIES
+                      COMPILE_FLAGS "-fPIC"
+                      VERSION 1.0.0
+                      SOVERSION 1)
+INSTALL(TARGETS anpcode
+        DESTINATION lib
+        PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)

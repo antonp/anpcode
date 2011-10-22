@@ -31,3 +31,19 @@ SET_TARGET_PROPERTIES(anpcode
 INSTALL(TARGETS anpcode
         DESTINATION lib
         PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+
+INSTALL(FILES include/anpcode/anp_dynamic_library.h
+              include/anpcode/anp_exceptions.h
+              include/anpcode/anp_jobqueue.h
+              include/anpcode/anp_threading.h
+              include/anpcode/anp_threadsafequeue.h
+              include/anpcode/anp_timing.h
+              include/anpcode/anp_workerthread.h
+              include/anpcode/eventdispatcher.h
+              include/anpcode/iwritablecontainer.h
+              include/anpcode/log.h
+              include/anpcode/log_singleton.h
+              include/anpcode/stdvector.h
+        DESTINATION include/anpcode
+        PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+

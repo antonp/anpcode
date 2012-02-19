@@ -33,6 +33,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <anpcode/anp_workerthread.h>
 #include <anpcode/anp_jobqueue.h>
 
+#ifndef NULL
+  #define NULL 0
+#endif
+
 namespace anp
 {
 namespace threading

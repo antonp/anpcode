@@ -29,7 +29,7 @@ SET_TARGET_PROPERTIES(anpcode
                       VERSION 1.0.0
                       SOVERSION 1)
 INSTALL(TARGETS anpcode
-        DESTINATION lib
+        DESTINATION lib${LIB_SUFFIX}
         PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 
 INSTALL(FILES include/anpcode/anp_dynamic_library.h

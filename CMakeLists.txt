@@ -26,8 +26,8 @@ ADD_LIBRARY(anpcode SHARED ${ANPCODE_SRCS})
 SET_TARGET_PROPERTIES(anpcode
                       PROPERTIES
                       COMPILE_FLAGS "-fPIC"
-                      VERSION 1.0.0
-                      SOVERSION 1)
+                      VERSION 0.1.0
+                      SOVERSION 0)
 INSTALL(TARGETS anpcode
         DESTINATION lib${LIB_SUFFIX}
         PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)

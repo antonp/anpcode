@@ -25,7 +25,7 @@ ENDIF(UNIX)
 ADD_LIBRARY(anpcode SHARED ${ANPCODE_SRCS})
 SET_TARGET_PROPERTIES(anpcode
                       PROPERTIES
-                      COMPILE_FLAGS "-fPIC"
+                      COMPILE_FLAGS "-fPIC -Wall"
                       VERSION 0.1.0
                       SOVERSION 0)
 INSTALL(TARGETS anpcode

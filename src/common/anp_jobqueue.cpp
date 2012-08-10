@@ -171,8 +171,6 @@ namespace threading
 	
 	void JobQueue::addJob(Job *job)
 	{
-		bool empty = false;
-		
 		m_jobQueueMutex.lock();
 		m_queue.push(job);
 		//empty = m_queue.empty();

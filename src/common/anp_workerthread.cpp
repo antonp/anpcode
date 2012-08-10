@@ -104,6 +104,7 @@ namespace threading
 	void *WorkerThread::threadEntry(void *arg)
 	{
 		((WorkerThread *)arg)->loop();
+        return NULL; // No clue, just added to supress warning
 	}
 	
 } // namespace threading

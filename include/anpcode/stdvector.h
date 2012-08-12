@@ -49,6 +49,8 @@ public:
 	}
 	
 	std::vector<T> m_vector;
+};
+
 } // namespace anp
 
 #endif // _HEADER_NAME_

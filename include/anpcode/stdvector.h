@@ -29,12 +29,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _STDVECTOR_H_
 
 #include <anpcode/iwritablecontainer.h>
+#include <vector>
 
 namespace anp
 {
 
 /**
- * Simple wrapper around std::vector that can be passed to 
+ * Simple wrapper around std::vector that can be passed to
  * functions expecting IWritableContainer interfaces.
  * Provides no encapsulation or real wrapping around the
  * std::vector object.
@@ -43,12 +44,12 @@ template<typename T>
 class StdVector: public anp::IWritableContainer<T>
 {
 public:
-	void pushBack(T &element)
-	{
-		m_vector.push_back(element);
-	}
-	
-	std::vector<T> m_vector;
+    void pushBack(const T &element)
+    {
+        m_vector.push_back(element);
+    }
+
+    std::vector<T> m_vector;
 };
 
 } // namespace anp

@@ -35,9 +35,9 @@ template<typename T>
 class IWritableContainer
 {
 public:
-	virtual ~IWritableContainer() { }
-	
-	virtual void pushBack(T &element) = 0;
+    virtual ~IWritableContainer() { }
+
+    virtual void pushBack(const T &element) = 0;
 };
 
 } // namespace anp

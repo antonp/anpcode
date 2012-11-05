@@ -78,13 +78,25 @@ private:
     LogSingleton &m_log;
 };
 
+
 #define TOSTRING_INNER(s) #s
 #define TOSTRING(s) TOSTRING_INNER(s)
-#define ANPLOGE(tag, message) anp::LogSingleton::getInstance().loge(tag, message, __FILE__, TOSTRING(__LINE__));\
+
+// LOG_SOURCE: If defined, include preprocessor source info in log messages.
+// Default to no source info.
+#ifdef LOG_SOURCE
+  #define SOURCE() __FILE__
+  #define LINE() TOSTRING(__LINE__)
+#else
+  #define SOURCE() ""
+  #define LINE() ""
+#endif // LOG_SOURCE
+
+#define ANPLOGE(tag, message) anp::LogSingleton::getInstance().loge(tag, message, SOURCE(), LINE());\
                                     anp::LogSingleton::releaseInstance();
-#define ANPLOGI(tag, message) anp::LogSingleton::getInstance().logi(tag, message, __FILE__, TOSTRING(__LINE__));\
+#define ANPLOGI(tag, message) anp::LogSingleton::getInstance().logi(tag, message, SOURCE(), LINE());\
                                     anp::LogSingleton::releaseInstance();
-#define ANPLOGD(tag, message) anp::LogSingleton::getInstance().logd(tag, message, __FILE__, TOSTRING(__LINE__));\
+#define ANPLOGD(tag, message) anp::LogSingleton::getInstance().logd(tag, message, SOURCE(), LINE());\
                                     anp::LogSingleton::releaseInstance();
 
 }

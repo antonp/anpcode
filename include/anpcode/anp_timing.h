@@ -32,9 +32,9 @@ namespace anp
 {
 namespace timing
 {
-	unsigned int getMilliseconds();
-	
-	void sleepMilliseconds(unsigned int ms);
+    unsigned int getMilliseconds();
+
+    void sleepMilliseconds(unsigned int ms);
 }
 }
 

@@ -43,75 +43,75 @@ namespace anp
 {
 namespace threading
 {
-	/**
-	 * @brief
-	 * Job base class.
-	 */
-	class Job
-	{
-	public:
-		Job();
-		virtual ~Job();
-		
-		void execute();
-		
-		enum JobStatus
-		{
-			JOBSTATUS_CREATED,
-			JOBSTATUS_QUEUED,
-			JOBSTATUS_EXECUTING
-		};
-		
-		JobStatus getStatus() const;
-	protected:
-		JobStatus m_status;
-		
-		virtual void executeCustom() = 0;
-	};
+    /**
+     * @brief
+     * Job base class.
+     */
+    class Job
+    {
+    public:
+        Job();
+        virtual ~Job();
 
-	class JobQueueOperatorInterface
-	{
-	public:
-		virtual void start() = 0;
-		virtual void stopWait() = 0;
-		virtual void waitForJobsToBeCompleted() = 0;
-		virtual void addJob(Job *job) = 0;
-	};
-	
-	class JobQueueWorkerInterface
-	{
-	public:
-		virtual bool waitForJob(Job **job) = 0;
-	};
+        void execute();
 
-	class JobQueue:
-		public JobQueueOperatorInterface,
-		public JobQueueWorkerInterface
-	{
-	public:
-		JobQueue();
-		~JobQueue();
-		
-		void start();
-		void stopWait();
-		void waitForJobsToBeCompleted();
-		bool waitForJob(Job **job);
-		void addJob(Job *job);
-	private:
-		std::queue<Job *> m_queue;
-		Mutex m_jobQueueMutex;
-		Event m_newJobEvent;
-		Event m_jobsCompleted;
-		unsigned int m_dying;
-		Mutex m_dyingMutex;
-		
-		enum
-		{
-			MAX_THREADS=1
-		};
-		/// @todo make dynamic amount, changeable at runtime
-		WorkerThread m_workers[MAX_THREADS];
-	};
+        enum JobStatus
+        {
+            JOBSTATUS_CREATED,
+            JOBSTATUS_QUEUED,
+            JOBSTATUS_EXECUTING
+        };
+
+        JobStatus getStatus() const;
+    protected:
+        JobStatus m_status;
+
+        virtual void executeCustom() = 0;
+    };
+
+    class JobQueueOperatorInterface
+    {
+    public:
+        virtual void start() = 0;
+        virtual void stopWait() = 0;
+        virtual void waitForJobsToBeCompleted() = 0;
+        virtual void addJob(Job *job) = 0;
+    };
+
+    class JobQueueWorkerInterface
+    {
+    public:
+        virtual bool waitForJob(Job **job) = 0;
+    };
+
+    class JobQueue:
+        public JobQueueOperatorInterface,
+        public JobQueueWorkerInterface
+    {
+    public:
+        JobQueue();
+        ~JobQueue();
+
+        void start();
+        void stopWait();
+        void waitForJobsToBeCompleted();
+        bool waitForJob(Job **job);
+        void addJob(Job *job);
+    private:
+        std::queue<Job *> m_queue;
+        Mutex m_jobQueueMutex;
+        Event m_newJobEvent;
+        Event m_jobsCompleted;
+        unsigned int m_dying;
+        Mutex m_dyingMutex;
+
+        enum
+        {
+            MAX_THREADS=1
+        };
+        /// @todo make dynamic amount, changeable at runtime
+        WorkerThread m_workers[MAX_THREADS];
+    };
 
 } // namespace threading
 } // namespace anp

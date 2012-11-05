@@ -36,7 +36,7 @@ namespace anp
 class ILogInterface
 {
 public:
-	virtual void present(const std::string &tag,
+    virtual void present(const std::string &tag,
                          const std::string &message,
                          const std::string &file,
                          const std::string &line) = 0;
@@ -45,14 +45,14 @@ public:
 class Log
 {
 public:
-	Log();
-	virtual ~Log();
+    Log();
+    virtual ~Log();
 
     void loge(const std::string &tag,
               const std::string &message,
               const std::string &file="<file n/a>",
               const std::string &line="<line n/a>");
-	void logi(const std::string &tag,
+    void logi(const std::string &tag,
               const std::string &message,
               const std::string &file="<file n/a>",
               const std::string &line="<line n/a>");
@@ -61,16 +61,16 @@ public:
               const std::string &file="<file n/a>",
               const std::string &line="<line n/a>");
 
-	void addLogInterface(anp::ILogInterface *logInterface);
-	void removeLogInterface(anp::ILogInterface *logInterface);
+    void addLogInterface(anp::ILogInterface *logInterface);
+    void removeLogInterface(anp::ILogInterface *logInterface);
 private:
-	enum
-	{
-		MAX_LOGINTERFACES=10
-	};
+    enum
+    {
+        MAX_LOGINTERFACES=10
+    };
 
-	anp::ILogInterface *m_logInterfaces[MAX_LOGINTERFACES];
-	unsigned int m_logInterfaceCount;
+    anp::ILogInterface *m_logInterfaces[MAX_LOGINTERFACES];
+    unsigned int m_logInterfaceCount;
 };
 
 }

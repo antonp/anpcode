@@ -36,46 +36,46 @@ namespace anp
 class LogSingleton: public anp::Log
 {
 public:
-	static LogSingleton &getInstance();
-	static void releaseInstance();
+    static LogSingleton &getInstance();
+    static void releaseInstance();
 private:
-	LogSingleton() { }
-	~LogSingleton() { }
-	
-	static unsigned int m_refCount;
-	static LogSingleton *m_instance;
+    LogSingleton() { }
+    ~LogSingleton() { }
+
+    static unsigned int m_refCount;
+    static LogSingleton *m_instance;
 };
 
 /**
-	Makes sure that LogSingleton::releaseInstance() gets called.
+    Makes sure that LogSingleton::releaseInstance() gets called.
 */
 class LogSingletonHelper
 {
 public:
-	LogSingletonHelper():
-	m_log(LogSingleton::getInstance())
-	{
-		
-	}
-	~LogSingletonHelper()
-	{
-		LogSingleton::releaseInstance();
-	}
-	void logi(const std::string &tag,
+    LogSingletonHelper():
+    m_log(LogSingleton::getInstance())
+    {
+
+    }
+    ~LogSingletonHelper()
+    {
+        LogSingleton::releaseInstance();
+    }
+    void logi(const std::string &tag,
               const std::string &message,
               const std::string &file="<file n/a>",
               const std::string &line="<line n/a>")
-	{
-		m_log.logi(message, file, line);
-	}
-	
+    {
+        m_log.logi(message, file, line);
+    }
+
     // todo: logd, loge etc
 
-	void addLogInterface(anp::ILogInterface *logInterface);
-	void removeLogInterface(anp::ILogInterface *logInterface);
+    void addLogInterface(anp::ILogInterface *logInterface);
+    void removeLogInterface(anp::ILogInterface *logInterface);
 
 private:
-	LogSingleton &m_log;
+    LogSingleton &m_log;
 };
 
 #define TOSTRING_INNER(s) #s
@@ -83,7 +83,7 @@ private:
 #define ANPLOGE(tag, message) anp::LogSingleton::getInstance().loge(tag, message, __FILE__, TOSTRING(__LINE__));\
                                     anp::LogSingleton::releaseInstance();
 #define ANPLOGI(tag, message) anp::LogSingleton::getInstance().logi(tag, message, __FILE__, TOSTRING(__LINE__));\
-									anp::LogSingleton::releaseInstance();
+                                    anp::LogSingleton::releaseInstance();
 #define ANPLOGD(tag, message) anp::LogSingleton::getInstance().logd(tag, message, __FILE__, TOSTRING(__LINE__));\
                                     anp::LogSingleton::releaseInstance();
 

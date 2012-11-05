@@ -32,12 +32,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace anp
 {
-	class ConstructionException: public std::runtime_error
-	{
-	public:
-		ConstructionException(const std::string &message):
-		std::runtime_error(message) { }
-	};
+    class ConstructionException: public std::runtime_error
+    {
+    public:
+        ConstructionException(const std::string &message):
+        std::runtime_error(message) { }
+    };
 }
-	
+
 #endif // _ANP_EXCEPTIONS_H_

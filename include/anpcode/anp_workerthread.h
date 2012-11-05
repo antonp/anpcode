@@ -39,27 +39,27 @@ namespace anp
 {
 namespace threading
 {
-	class JobQueueWorkerInterface;
-	
-	class WorkerThread
-	{
-	public:
-		WorkerThread();
-		~WorkerThread();
-		
-		void start(JobQueueWorkerInterface *jobQueue);
-		void stop();
-		void join();
-	private:
-		Thread m_thread;
-		JobQueueWorkerInterface *m_jobQueue;
-		unsigned int m_dying;
-		Mutex m_dyingMutex;
-		
-		static void *threadEntry(void *arg);
-		void loop();
-	};
-	
+    class JobQueueWorkerInterface;
+
+    class WorkerThread
+    {
+    public:
+        WorkerThread();
+        ~WorkerThread();
+
+        void start(JobQueueWorkerInterface *jobQueue);
+        void stop();
+        void join();
+    private:
+        Thread m_thread;
+        JobQueueWorkerInterface *m_jobQueue;
+        unsigned int m_dying;
+        Mutex m_dyingMutex;
+
+        static void *threadEntry(void *arg);
+        void loop();
+    };
+
 } // namespace threading
 } // namespace anp
 

@@ -40,165 +40,165 @@ namespace anp
 {
 namespace threading
 {
-	/**
-	 * @brief
-	 * The ThreadPlatformSpecific object represents a single
-	 * thread and can be used to carry out operations on that thread.
-	 */
-	struct ThreadPlatformSpecific;
-	
-	/**
-	 * @brief
-	 * The MutexPlatformSpecific object can be used for
-	 * synchronizing threads.
-	 */
-	struct MutexPlatformSpecific;
-	
-	/**
-	 * @brief
-	 * Attributes and creation options for a thread.
-	 */
-	struct ThreadAttributesPlatformSpecific;
-	
-	/**
-	 * @brief
-	 * The EventPlatformSpecific object represents a synchronization
-	 * event. 
-	 */
-	struct EventPlatformSpecific;
+    /**
+     * @brief
+     * The ThreadPlatformSpecific object represents a single
+     * thread and can be used to carry out operations on that thread.
+     */
+    struct ThreadPlatformSpecific;
 
-	/**
-	 * @brief
-	 * This class wraps the platform specific thread handle/identifier.
-	 * It can be created on the stack!
-	 */
-	class Thread
-	{
-	public:
-		Thread();
-		virtual ~Thread();
-		
-		/**
-		 * @brief
-		 * Creates a thread.
-		 * 
-		 * @param[in] attr
-		 * Attributes and creation options of the thread.
-		 * 
-		 * @param[in] startRoutine
-		 * Entry function for the thread.
-		 * 
-		 * @param[in] arg
-		 * Argument to be passed to the threads startRoutine.
-		 */
-		void create(const ThreadAttributesPlatformSpecific *attr,
-			void *(*startRoutine)(void *), void *arg);
-			
-		/**
-		 * @brief
-		 * Wait for thread to finish. Exactly like pthread_join.
-		 * 
-		 * @param thread
-		 * The thread to wait for.
-		 * 
-		 * @param valuePtr
-		 * No clue.
-		 */
-		void join(void **valuePtr);
-		
-	private:
-		ThreadPlatformSpecific *m_thread;
-	};
-	
-	class Mutex
-	{
-	public:
-		Mutex();
-		~Mutex();
-		
-		/**
-		 * @brief
-		 * Locks the mutex.
-		 */
-		void lock();
-		
-		/**
-		 * @brief
-		 * Tries to lock the mutex. Does not block.
-		 * 
-		 * @return
-		 * true if the lock succeeded and false otherwise.
-		 */
-		bool tryLock();
+    /**
+     * @brief
+     * The MutexPlatformSpecific object can be used for
+     * synchronizing threads.
+     */
+    struct MutexPlatformSpecific;
 
-		/**
-		 * @brief
-		 * Unlocks the mutex.
-		 */	
-		void unlock();
-	private:
-		MutexPlatformSpecific *m_mutex;
-	};
-	
-	/**
-	 * @brief
-	 * The typical lock mechanism.
-	 */
-	class Lock
-	{
-	public:
-		Lock(Mutex &mutex);
-		~Lock();
-	private:
-		Mutex &m_mutex;
-	};
-	
-	/**
-	 * @brief
-	 * Like Lock, but uses Mutex::tryLock instead.
-	 */
-	class TryLock
-	{
-	public:
-		TryLock(Mutex &mutex);
-		~TryLock();
-	private:
-		Mutex &m_mutex;
-	};
-	
-	class Event
-	{
-	public:
-		Event();
-		~Event();
-		
-		void wait();
-		void signal();
-		void signalBroadcast();
-	private:
-		EventPlatformSpecific *m_event;
-	};
-	
-	template<typename T, T INIT>
-	class ProtectedData
-	{
-	public:
-		ProtectedData():m_data(INIT) { };
-		
-		void set(T value) {
-			m_mutex.lock();
-			m_data = value;
-			m_mutex.unlock();
-		}
-		void get(T &value) const {
-			m_mutex.lock();
-			value = m_data;
-			m_mutex.unlock();
-		}
-	protected:
-		mutable Mutex m_mutex;
-		T m_data;	
-	};
+    /**
+     * @brief
+     * Attributes and creation options for a thread.
+     */
+    struct ThreadAttributesPlatformSpecific;
+
+    /**
+     * @brief
+     * The EventPlatformSpecific object represents a synchronization
+     * event.
+     */
+    struct EventPlatformSpecific;
+
+    /**
+     * @brief
+     * This class wraps the platform specific thread handle/identifier.
+     * It can be created on the stack!
+     */
+    class Thread
+    {
+    public:
+        Thread();
+        virtual ~Thread();
+
+        /**
+         * @brief
+         * Creates a thread.
+         *
+         * @param[in] attr
+         * Attributes and creation options of the thread.
+         *
+         * @param[in] startRoutine
+         * Entry function for the thread.
+         *
+         * @param[in] arg
+         * Argument to be passed to the threads startRoutine.
+         */
+        void create(const ThreadAttributesPlatformSpecific *attr,
+            void *(*startRoutine)(void *), void *arg);
+
+        /**
+         * @brief
+         * Wait for thread to finish. Exactly like pthread_join.
+         *
+         * @param thread
+         * The thread to wait for.
+         *
+         * @param valuePtr
+         * No clue.
+         */
+        void join(void **valuePtr);
+
+    private:
+        ThreadPlatformSpecific *m_thread;
+    };
+
+    class Mutex
+    {
+    public:
+        Mutex();
+        ~Mutex();
+
+        /**
+         * @brief
+         * Locks the mutex.
+         */
+        void lock();
+
+        /**
+         * @brief
+         * Tries to lock the mutex. Does not block.
+         *
+         * @return
+         * true if the lock succeeded and false otherwise.
+         */
+        bool tryLock();
+
+        /**
+         * @brief
+         * Unlocks the mutex.
+         */
+        void unlock();
+    private:
+        MutexPlatformSpecific *m_mutex;
+    };
+
+    /**
+     * @brief
+     * The typical lock mechanism.
+     */
+    class Lock
+    {
+    public:
+        Lock(Mutex &mutex);
+        ~Lock();
+    private:
+        Mutex &m_mutex;
+    };
+
+    /**
+     * @brief
+     * Like Lock, but uses Mutex::tryLock instead.
+     */
+    class TryLock
+    {
+    public:
+        TryLock(Mutex &mutex);
+        ~TryLock();
+    private:
+        Mutex &m_mutex;
+    };
+
+    class Event
+    {
+    public:
+        Event();
+        ~Event();
+
+        void wait();
+        void signal();
+        void signalBroadcast();
+    private:
+        EventPlatformSpecific *m_event;
+    };
+
+    template<typename T, T INIT>
+    class ProtectedData
+    {
+    public:
+        ProtectedData():m_data(INIT) { };
+
+        void set(T value) {
+            m_mutex.lock();
+            m_data = value;
+            m_mutex.unlock();
+        }
+        void get(T &value) const {
+            m_mutex.lock();
+            value = m_data;
+            m_mutex.unlock();
+        }
+    protected:
+        mutable Mutex m_mutex;
+        T m_data;
+    };
 } // namespace threading
 } // namespace anp
 

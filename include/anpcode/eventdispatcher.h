@@ -38,64 +38,64 @@ template <typename E>
 class ISubscriber
 {
 public:
-	virtual ~ISubscriber() { }
-	virtual void receiveEvent(E &event) = 0;
+    virtual ~ISubscriber() { }
+    virtual void receiveEvent(E &event) = 0;
 };
 
 template <typename E>
 class IEventDispatcherSource
 {
 public:
-	virtual ~IEventDispatcherSource() { }
-	virtual void dispatch(E &event) = 0;
+    virtual ~IEventDispatcherSource() { }
+    virtual void dispatch(E &event) = 0;
 };
 
 template <typename S>
 class IEventDispatcherSubscriber
 {
 public:
-	virtual ~IEventDispatcherSubscriber() { }
-	virtual void subscribe(S *subscriber) = 0;
-	virtual void unsubscribe(S *subscriber) = 0;
+    virtual ~IEventDispatcherSubscriber() { }
+    virtual void subscribe(S *subscriber) = 0;
+    virtual void unsubscribe(S *subscriber) = 0;
 };
 
 // Subscriber, Event
 template <typename S, typename E>
 class EventDispatcher: public IEventDispatcherSubscriber<S>,
-					   public IEventDispatcherSource<E>
+                       public IEventDispatcherSource<E>
 {
 public:
-	void subscribe(S *subscriber)
-	{
-		m_subscribers.push_back(subscriber);
-	}
+    void subscribe(S *subscriber)
+    {
+        m_subscribers.push_back(subscriber);
+    }
 
-	void unsubscribe(S *subscriber)
-	{
-		typename std::list<S *>::iterator i;
-		for ( i=m_subscribers.begin();
-			  i != m_subscribers.end(); i++ )
-		{
-			if ( (*i) == subscriber )
-			{
-				m_subscribers.erase(i);
-				return;
-			}
-		}
-		throw std::runtime_error("Unable to find specified subscriber");
-	}
+    void unsubscribe(S *subscriber)
+    {
+        typename std::list<S *>::iterator i;
+        for ( i=m_subscribers.begin();
+              i != m_subscribers.end(); i++ )
+        {
+            if ( (*i) == subscriber )
+            {
+                m_subscribers.erase(i);
+                return;
+            }
+        }
+        throw std::runtime_error("Unable to find specified subscriber");
+    }
 
-	void dispatch(E &event)
-	{
-		typename std::list<S *>::iterator i;
-		for ( i=m_subscribers.begin();
-			  i != m_subscribers.end(); i++ )
-		{
-			(*i)->receiveEvent(event);
-		}
-	}
+    void dispatch(E &event)
+    {
+        typename std::list<S *>::iterator i;
+        for ( i=m_subscribers.begin();
+              i != m_subscribers.end(); i++ )
+        {
+            (*i)->receiveEvent(event);
+        }
+    }
 private:
-	std::list<S *> m_subscribers;
+    std::list<S *> m_subscribers;
 };
 
 }

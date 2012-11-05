@@ -30,18 +30,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace anp
 {
-	class DynamicLibraryImplementation;
-	
-	class DynamicLibrary
-	{
-	public:
-		DynamicLibrary(const char *fileName);
-		virtual ~DynamicLibrary();
-		
-		void *getSymbol(const char *symbolName);
-	private:
-		DynamicLibraryImplementation *m_impl;
-	};
+    class DynamicLibraryImplementation;
+
+    class DynamicLibrary
+    {
+    public:
+        DynamicLibrary(const char *fileName);
+        virtual ~DynamicLibrary();
+
+        void *getSymbol(const char *symbolName);
+    private:
+        DynamicLibraryImplementation *m_impl;
+    };
 }
 
 #endif // _DYNAMIC_LIBRARY_H_
